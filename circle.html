@@ -1,0 +1,159 @@
+﻿<html>
+<head>
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+
+    <script>
+        var requestAnimationFrame = window.requestAnimationFrame || 
+									window.mozRequestAnimationFrame ||
+									window.webkitRequestAnimationFrame ||
+									window.msRequestAnimationFrame;
+        
+        window.addEventListener("devicemotion", animate, true);
+        var x=null
+        var shiftx=0,shifty=0;
+        function animate(event){
+            x=event
+            shiftx=-10*event.accelerationIncludingGravity.x
+            shifty=20*event.accelerationIncludingGravity.y;
+        }
+
+		
+        function draw() {
+            if(x){
+            var m = document.getElementById("myCanvas");
+            var base = m.getContext("2d");
+            base.canvas.width = window.innerWidth;
+            base.canvas.height = window.innerHeight;
+            base.fillStyle = "lightgray";
+            base.fillRect(0, 0, base.canvas.width, base.canvas.height);
+            var p = 0;
+            while (p < base.canvas.height) {
+                var q = 0;
+                while (q < base.canvas.width) {
+                    begin = q * 20;
+                    if (p % 2 != 0) {
+                        begin = (q + 1) * 20;
+                    }
+                    base.beginPath();
+                    base.fillStyle = "black";
+                        base.arc(begin + 10, (p * 20) + 10, 8, 0, Math.PI * 2, false);
+                    base.stroke();
+                    base.fill();
+                    q += 2;
+                    }
+                p++; 
+            }
+
+            base.translate(shiftx,shifty)                   
+                  
+            //square one
+            let sqr1x = Math.floor(base.canvas.width / 4)
+            let sqr1y = Math.floor(base.canvas.height / 7)
+            let sqr1w = Math.floor(base.canvas.width / 5)
+            let sqr1h = Math.floor(base.canvas.width / 5)
+            let sq1Size=15
+            base.fillStyle = "lightgray";
+            base.fillRect(sqr1x, sqr1y, sqr1w, sqr1h);
+            for (let i = sqr1x; i < sqr1x + sqr1w ; i = i + sq1Size) {
+                for (let j = sqr1y; j < sqr1y + sqr1h ; j = j + sq1Size) {
+                    if ((i + j) % 2 == 0) {
+                        base.beginPath();
+                        base.fillStyle = "black";
+                        base.fillRect(i, j, sq1Size, sq1Size)
+                        base.stroke();
+                        base.fill();
+                    }
+                }
+            }
+            //square two
+            let sqr2y = Math.floor(base.canvas.height / 7);
+            let sqr2w = Math.floor(base.canvas.width / 7)
+            let sqr2h = Math.floor(base.canvas.width / 7)
+            let sq2Size = 15
+            let sqr2xStart = (sqr1x * 2) ;            
+            base.clearRect(sqr2xStart, sqr1y, sqr2w, sqr2h);
+            base.fillStyle = "lightgray";   
+            base.fillRect(sqr2xStart, sqr1y, sqr2w, sqr2h);
+            for (let i = sqr2xStart; i < sqr2xStart + sqr2w ; i = i + sq2Size) {
+                for (let j = sqr2y; j < sqr2y + sqr2h ; j = j + sq2Size) {
+                    if ((i + j) % 2 == 0) {
+                        base.beginPath();
+                        base.fillStyle = "black";
+                        base.fillRect(i, j, sq2Size, sq2Size)
+                        base.stroke();
+                        base.fill();
+                    }
+                }
+            } 
+         
+            //square 3
+            let sqr3x = Math.floor(base.canvas.width / 4)
+            let sqr3y = Math.floor(sqr1y + (sqr1h*1.2));
+            let sqr3w = sqr2xStart-sqr1x;
+            let sqr3h = Math.floor(base.canvas.width / 8)
+            let sq3Size = 15;
+            base.clearRect(sqr3x, sqr3y, sqr3w, sqr3h);
+            base.fillStyle = "lightgray";
+            base.fillRect(sqr3x, sqr3y, sqr3w, sqr3h);
+            for (let i = sqr3x; i < sqr3x + sqr3w ; i = i + sq3Size) {
+                for (let j = sqr3y; j < sqr3y + sqr3h; j = j + sq3Size) {
+               //     let total = Math.floor(i+j);0
+                    if ((i + j) % 2 == 0) {                    
+                        base.beginPath();
+                        base.fillStyle = "black";
+                        base.fillRect(i, j, sq3Size, sq3Size)
+                        base.stroke();
+                        base.fill();
+                    }
+                }
+            }
+
+
+            //square 4
+            let sqr4x = sqr2xStart + Math.floor(base.canvas.width / 24);
+            let sqr4y = Math.floor(base.canvas.width / 5) + Math.floor(base.canvas.height / 7);
+            let sqr4w = sqr2w - Math.floor(base.canvas.width / 24);
+            let sqr4h = sqr3y + sqr3h - (sqr1y + sqr1h);
+            let sq4Size = 15;
+            base.clearRect(sqr4x, sqr4y, sqr4w, sqr4h);
+            base.fillStyle = "lightgray";                  
+            base.fillRect(sqr4x, sqr4y, sqr4w, sqr4h);
+            for (let i = sqr4x; i < sqr4x + sqr4w ; i = i + sq4Size) {
+                for (let j = sqr4y; j < sqr4y + sqr4h; j = j + sq4Size) {
+           //         let total = Math.floor(i+j);0
+                    if ((i + j) % 2 == 0) {
+                        base.beginPath();
+                        base.fillStyle = "black";
+                        base.fillRect(i, j, sq4Size, sq4Size)
+                        base.stroke();
+                        base.fill();
+                    }
+                }
+            } 
+            }
+            requestAnimationFrame(draw);       
+        }
+        requestAnimationFrame(draw);
+
+var start = new Date().getTime();
+window.addEventListener('load', (event) => {
+    var loadTime = new Date().getTime() - start;
+    console.log("Time to Load: " + loadTime + " ms");
+});
+document.addEventListener('DOMContentLoaded', (event) => {
+    var loadTime = new Date().getTime() - start;
+    console.log("DOM Content Load time : " + loadTime + " ms");
+});     
+document.addEventListener('readystatechange', (event) => {
+    var loadTime = new Date().getTime() - start;
+    console.log("Change of State: " + loadTime + " ms");
+});
+
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" ></canvas>
+    <script>onload = draw();</script>
+
+</body>
+</html>
